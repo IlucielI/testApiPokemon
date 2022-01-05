@@ -13,5 +13,6 @@ class myPokemons extends Model
         'img',
         'move',
         'type',
+        'user_id',
     ];
 }

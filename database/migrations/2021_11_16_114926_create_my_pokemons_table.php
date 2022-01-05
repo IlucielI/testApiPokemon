@@ -19,6 +19,13 @@ class CreateMyPokemonsTable extends Migration
             $table->string('img');
             $table->string('move');
             $table->string('type');
+            $table->bigInteger('level')->default(1);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')
+                ->on('users')
+                ->references('id')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

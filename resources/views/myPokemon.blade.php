@@ -11,19 +11,37 @@
     </div>
 </div>
 <div class="row">
+    @if ($datas->isEmpty())
+        <div class="col mt-2 d-flex justify-content-center">
+            <h1 class="text-danger">Go catch some pokemon</h1>
+        </div>
+    @endif
     @foreach ($datas as $data)
     <div class="col mt-2 d-flex justify-content-center">
         <div class="card" style="width: 18rem;">
         <img src="{{$data->img}}" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title text-center">{{$data->name}}</h5>
-            <button type="button" class="btn btn-info rename" data-toggle="modal" data-target="#modalRename" data-id="{{$data->id}}" data-name="{{$data->name}}" data-img="{{$data->img}}">
-            Rename
-            </button>
-              <button type="button" class="btn btn-primary detail" data-toggle="modal" data-target="#modalDetail" data-id="{{$data->id}}">
-                Detail
-              </button>
-              <button type="button" class="btn btn-danger release" data-id="{{$data->id}}" data-name="{{$data->name}}" data-img="{{$data->img}}" data-move="{{$data->move}}" data-type="{{$data->type}}">Release</button>
+            <div class="row">
+                <div class="col-4">
+                    <button type="button" class="btn btn-info rename" data-toggle="modal" data-target="#modalRename" data-id="{{$data->id}}" data-name="{{$data->name}}" data-img="{{$data->img}}">
+                    Rename
+                    </button>
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-primary detail" data-toggle="modal" data-target="#modalDetail" data-id="{{$data->id}}">
+                      Detail
+                    </button>
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-danger release" data-id="{{$data->id}}" data-name="{{$data->name}}" data-img="{{$data->img}}" data-move="{{$data->move}}" data-type="{{$data->type}}">Release</button>
+                </div>
+            </div>
+              <div class="row mt-3 d-flex justify-content-center">
+                  <div class="col d-flex justify-content-center">
+                      <a href="/bayar/{{$data->id}}" class="btn btn-success">Upgrade Level</a>
+                  </div>
+              </div>
           </div>
         </div>
     </div>
@@ -56,6 +74,9 @@
                         </li>
                         <li class="list-group-item" id="modalType">
                             Type :
+                        </li>
+                        <li class="list-group-item" id="modalLevel">
+                            Level :
                         </li>
                     </ul>
                 </div>
@@ -182,6 +203,8 @@
 					$(`#modalType`).html(type);
 					const move = `<p class="text-warning">Move : ${data.move}</p>`;
 					$(`#modalMove`).html(move);
+					const level = `<p class="text-warning">Level : ${data.level}</p>`;
+					$(`#modalLevel`).html(level);
 					$(`#modalDetailImage`).attr('src', data.img);
 					$(`#modalDetailLongTitle`).html(data.name + "With Ajax");
 			}

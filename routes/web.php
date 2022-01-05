@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\MidtransController;
+use App\Http\Controllers\PokemonController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +21,24 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', 'App\Http\Controllers\PokemonController@index');
-Route::get('/pokemon/{name}', 'App\Http\Controllers\PokemonController@show');
-Route::get('/mypokemon', 'App\Http\Controllers\PokemonController@myPokemon');
+Auth::routes(['verify' => true]);
+
+Route::get('/', 'App\Http\Controllers\PokemonController@index')->name('home');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/pokemon/{name}', 'App\Http\Controllers\PokemonController@show');
+    Route::post('/pokemon', 'App\Http\Controllers\PokemonController@store');
+    Route::get('/mypokemon', 'App\Http\Controllers\PokemonController@myPokemon');
+    Route::delete('/mypokemon/{id}', 'App\Http\Controllers\PokemonController@destroy');
+    Route::patch('/mypokemon', 'App\Http\Controllers\PokemonController@update');
+});
 Route::post('/mypokemonDetailAjax', 'App\Http\Controllers\PokemonController@myPokemonDetailAjax');
-Route::get('/mypokemon/{name}', 'App\Http\Controllers\PokemonController@myPokemonShow');
-Route::delete('/mypokemon/{id}', 'App\Http\Controllers\PokemonController@destroy');
-Route::post('/pokemon', 'App\Http\Controllers\PokemonController@store');
-Route::patch('/mypokemon', 'App\Http\Controllers\PokemonController@update');
+Route::get('/bayar/{id}', [PokemonController::class,'bayar']);
+Route::post('/notification/handling', [PokemonController::class,'notification']);
+Route::get('/finish', [MidtransController::class,'finish']);
+Route::get('/unfinish', [MidtransController::class,'unfinish']);
+Route::get('/error', [MidtransController::class,'error']);
+// Route::get('/signin', 'App\Http\Controllers\AuthController@signin')->name('login')->middleware('guest');
+// Route::get('/signup', 'App\Http\Controllers\AuthController@signup')->middleware('guest');
+// Route::post('/signup', 'App\Http\Controllers\AuthController@signupStore');
+// Route::post('/signin', 'App\Http\Controllers\AuthController@authenticate');
+// Route::post('/signout', 'App\Http\Controllers\AuthController@signout');
