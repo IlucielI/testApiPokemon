@@ -39,7 +39,7 @@
             </li>
         </ul>
         @guest
-        <a href="/signin" style="text-decoration: none">
+        <a href="/login" style="text-decoration: none">
             <button class="btn btn-outline-info rounded-pill" type="button">Sign In</button>
         </a>
         @endguest
@@ -50,7 +50,7 @@
             </button>
                 <div class="dropdown-menu">
                     <li>
-                        <form action="/signout" method="post">
+                        <form action="/logout" method="post">
                             @csrf
                             <button type="submit" class="dropdown-item">Sign Out</button>
                         </form>
